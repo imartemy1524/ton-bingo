@@ -30,7 +30,12 @@ contract TonBingo with Registrable, TicketDeployable, OwnableTransferable, Winne
     winners: Winners = Winners{items: emptyMap()};
     needBarrels: NeedBarrels = NeedBarrels{corners: 0, crossing: 0, full: 0};
     expectedWinners: ExpectedWinners = ExpectedWinners{corners: 0, crossing: 0, full: 0};
-
+    pricesDistribution: PricesDistributionCoef = PricesDistributionCoef{
+        corners: Decimal{numerator: 1, denominator: 10},
+        crossing: Decimal{numerator: 3, denominator: 10},
+        full: Decimal{numerator: 5, denominator: 10},
+    };
+    rewardsSent: Bool = false;
 
     init(owner: Address, registerUntil: Int, amount: Int) {
         self.registerUntil = registerUntil;
