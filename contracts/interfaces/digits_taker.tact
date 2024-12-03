@@ -9,8 +9,7 @@ trait DigitsTakerOut with Registrable {
     digitsTakenOut: TookOutDigits;
 
     inline fun takeRandomDigit(){
-        let digitIndex = random(0, 99 - self.digitsTakenOut.count);
-        let digit = self.digitsTakenOut.digitAtIndex(digitIndex);
+        let digit = self.digitsTakenOut.randomDigit();
 
         require(!self.digitsTakenOut.isDigitTookOut(digit), "Digit already taken out");
 
@@ -23,11 +22,12 @@ trait DigitsTakerOut with Registrable {
     abstract inline fun initializeDigits();
     external("take"){
         self.requireRegisterClosed();
-        self.initializeDigits();
         require(now() - self.lastDigitTakenOutDate >= self.digitTakeInterval, "Too early to take out digit");
         self.requireNotEnoughWinners(WINNER_TYPE_FULL);
         acceptMessage();
+        self.initializeDigits();
         self.takeRandomDigit();
+        self.lastDigitTakenOutDate = now();
     }
 
 }

@@ -14,6 +14,7 @@ struct BingoData {
     amount: Int;
     winners: Winners;
     lastDigitTakenOutDate: Int;
+    needBarrels: NeedBarrels;
 }
 message DeployMaster {
     jetton: Address;
@@ -28,8 +29,8 @@ contract TonBingo with Registrable, TicketDeployable, OwnableTransferable, Winne
     digitsTakenOut: TookOutDigits = TookOutDigits{data: 0, count: 0};
     lastDigitTakenOutDate: Int as uint64 = 0;
     winners: Winners = Winners{items: emptyMap()};
-    needBarrels: NeedBarrels = NeedBarrels{corners: 0, crossing: 0, full: 0};
-    expectedWinners: ExpectedWinners = ExpectedWinners{corners: 0, crossing: 0, full: 0};
+    needBarrels: NeedBarrels = NeedBarrels{corners: 1, crossing: 1, full: 1};
+    expectedWinners: ExpectedWinners;
     pricesDistribution: PricesDistributionCoef = PricesDistributionCoef{
         corners: Decimal{numerator: 1, denominator: 10},
         crossing: Decimal{numerator: 3, denominator: 10},
@@ -37,11 +38,12 @@ contract TonBingo with Registrable, TicketDeployable, OwnableTransferable, Winne
     };
     rewardsSent: Bool = false;
 
-    init(owner: Address, registerUntil: Int, amount: Int) {
+    init(owner: Address, registerUntil: Int, amount: Int, expectedWinners: ExpectedWinners) {
         self.registerUntil = registerUntil;
         self.amount = amount;
         self.owner = owner;
         self.jetton = newAddress(0, 0);
+        self.expectedWinners = expectedWinners;
     }
     // deploy contract
     receive(m: DeployMaster){
@@ -61,8 +63,10 @@ contract TonBingo with Registrable, TicketDeployable, OwnableTransferable, Winne
             amount: self.amount,
             winners: self.winners,
             lastDigitTakenOutDate: self.lastDigitTakenOutDate,
+            needBarrels: self.needBarrels
         };
     }
+
 
 
 }

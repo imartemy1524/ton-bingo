@@ -9,17 +9,14 @@ struct Ticket{
     data: Int as uint175;
 }
 
-// TODO: carefully check this function logic
-// returns first index of (index zero bit) from right to left
-extends inline fun digitAtIndex(self: TookOutDigits, index: Int): Int{
-    let i = 1;
-    while(index >= 0){
-        if(self.data & i) == 0{
-            index -= 1;
-        }
-        i = i << 1;
-    }
-    return log2(i) - 1;
+extends inline fun randomDigit(self: TookOutDigits): Int{
+    nativePrepareRandom();
+    let digit: Int = 0;
+    do {
+        digit = (nativeRandomInterval(100));
+    } until(!self.isDigitTookOut(digit));
+
+    return digit;
 }
 
 extends inline fun isWinnerCorners(self: Ticket, digits: TookOutDigits): Bool{
@@ -42,14 +39,14 @@ extends inline fun isCrossingWins(self: Ticket, digits: TookOutDigits): Bool{
     return digits.isDigitTookOut(a) && digits.isDigitTookOut(b) && digits.isDigitTookOut(c) && digits.isDigitTookOut(d) && digits.isDigitTookOut(e) && digits.isDigitTookOut(f) && digits.isDigitTookOut(g) && digits.isDigitTookOut(h);
 }
 
-extends inline fun isWinner(self: Ticket, digits: TookOutDigits): Bool{
+extends inline fun isWinner(self: Ticket, digits: TookOutDigits): Bool {
     let x = 0;
-    repeat(5){
+    repeat(5) {
         let y = 0;
-        repeat(5){
-            if(x != 2 && y != 2){
+        repeat(5) {
+            if(x != 2 && y != 2) {
                 let number = self.numberAt(x, y);
-                if !digits.isDigitTookOut(number){
+                if !digits.isDigitTookOut(number) {
                     return false;
                 }
             }
@@ -77,14 +74,19 @@ extends inline fun numberAt(self: Ticket, x: Int, y: Int): Int {
 inline fun randomTicket(): Ticket{
     nativePrepareRandom();
 
+    // binary representation of ticket
+    let got: Int = 0;
     let ans = 0;
     repeat(25){
         ans = ans << 7;
-        let number = (nativeRandom() % 99) + 1;
-        ans = ans + number;
+        let number: Int = 0;
+        do {
+            number = (nativeRandom() % 99) + 1;
+        } until((got & (1 << number)) == 0);
+        got = got | (1 << number);
+        ans += number;
     }
-    return Ticket{
-    data: ans};
+    return Ticket{data: ans};
 }
 
 // function, which returns how many barrels should be taken out to have at average winners100_000 winners
@@ -127,5 +129,12 @@ fun needToTakeOutBarrels(squares: Int, users: Int, winners100_000: Int): Int{
         }
         takenCount += 1;
     }
-    throw(1234);
+    if(true){
+        throw(1234);
+    }
+    return 0;
 }
+
+
+
+const global20: Int = needToTakeOutBarrels(4,5000,6*100000);

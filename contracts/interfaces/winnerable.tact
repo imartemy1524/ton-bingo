@@ -13,8 +13,7 @@ struct WinnersCounts {
 
 struct Winners {
     items: map<Int as uint32, WinnerType>;
-    winnersCounts: WinnersCounts = WinnersCounts{
-    winnersCorners: 0, winnersCrossing: 0, winnersFull: 0};
+    winnersCounts: WinnersCounts = WinnersCounts{ winnersCorners: 0, winnersCrossing: 0, winnersFull: 0};
 }
 struct NeedBarrels {
     corners: Int as uint7;
@@ -37,7 +36,7 @@ struct Decimal {
     numerator: Int as uint16;
     denominator: Int as uint16;
 }
-struct PricesDistributionCoef{
+struct PricesDistributionCoef {
     corners: Decimal;
     crossing: Decimal;
     full: Decimal;
@@ -56,22 +55,16 @@ trait Winnerable with DigitsTakerOut, TicketDeployable, Ownable {
     owner: Address;
 
     override inline fun requireNotEnoughWinners(type: Int){
-        if(type >= WINNER_TYPE_CORNERS) {
-            require(self.digitsTakenOut.count < self.needBarrels.corners, "Not enough corners winners");
-        }
-        if(type >= WINNER_TYPE_CROSSING) {
-            require(self.digitsTakenOut.count < self.needBarrels.crossing, "Not enough crossing winners");
-        }
-        if(type >= WINNER_TYPE_FULL) {
+        if(type == WINNER_TYPE_FULL) {
             require(self.digitsTakenOut.count < self.needBarrels.full, "Not enough full winners");
         }
     }
     override inline fun initializeDigits(){
-        if(self.needBarrels.full == 0){
+        if(self.needBarrels.full == 1){
             self.needBarrels = NeedBarrels{
-            corners: needToTakeOutBarrels(4, self.ticketsCount, self.expectedWinners.corners),
-            crossing: needToTakeOutBarrels(8, self.ticketsCount, self.expectedWinners.crossing),
-            full: needToTakeOutBarrels(24, self.ticketsCount, self.expectedWinners.full)
+                corners: needToTakeOutBarrels(4, self.ticketsCount, self.expectedWinners.corners),
+                crossing: needToTakeOutBarrels(8, self.ticketsCount, self.expectedWinners.crossing),
+                full: needToTakeOutBarrels(24, self.ticketsCount, self.expectedWinners.full)
             };
         }
     }
@@ -163,4 +156,15 @@ trait Winnerable with DigitsTakerOut, TicketDeployable, Ownable {
             body: "system profit".asComment()
         });
     }
+
+
+    get fun isWinner(type: Int, ticket: Ticket): Bool{
+        self.requireRegisterClosed();
+        return type == WINNER_TYPE_FULL? ticket.isWinner(self.digitsTakenOut):
+            type == WINNER_TYPE_CORNERS? ticket.isWinnerCorners(self.digitsTakenOut):
+            type == WINNER_TYPE_CROSSING? ticket.isCrossingWins(self.digitsTakenOut):
+            false;
+
+    }
+
 }
