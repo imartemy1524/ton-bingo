@@ -40,14 +40,16 @@ contract TonBingo with Registrable, TicketDeployable, OwnableTransferable, Winne
     };
     rewardsSent: Bool = false;
     images: map<Int, ElString>;
+    backgrounds: Backgrounds;
 
-    init(owner: Address, registerUntil: Int, amount: Int, expectedWinners: ExpectedWinners, images: map<Int, ElString>) {
+    init(owner: Address, registerUntil: Int, amount: Int, expectedWinners: ExpectedWinners, images: map<Int, ElString>, backgrounds: Backgrounds) {
         self.registerUntil = registerUntil;
         self.amount = amount;
         self.owner = owner;
         self.jetton = newAddress(0, 0);
         self.expectedWinners = expectedWinners;
         self.images = images;
+        self.backgrounds = backgrounds;
     }
     // deploy contract
     receive(m: DeployMaster){

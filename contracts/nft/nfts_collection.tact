@@ -32,6 +32,10 @@ inline fun nftTextToCellAsDict(input: String): Cell {
     .asCell();
 
 }
+struct Backgrounds {
+    images: map<Int, ElString>;
+    length: Int;
+}
 
 inline fun nftTextToCell(input: String, storeAsSnake: Bool): Cell {
     return nftTextToCellAsDict(input);
@@ -56,7 +60,9 @@ trait NftsCollection{
     const CollectionName: String = "TON Bingo";
     const CollectionDescription: String = "TON Bingo NFTs";
     images: map<Int, ElString>;
+    backgrounds: Backgrounds;
     const LogoURL: String = "https://raw.githubusercontent.com/imartemy1524/ton-bingo/refs/heads/master/images/logo.png";
+
     get fun get_collection_data(): CollectionData {
         let data: map<Int, ElString> = emptyMap();
         data.set(sha256("name"), ElString{ value: self.CollectionName});
@@ -74,7 +80,7 @@ trait NftsCollection{
         let content: TicketDataNft = TicketDataNft.fromCell(individual_content);
         let data: map<Int, ElString> = emptyMap();
         data.set(sha256("name"), ElString{value: content.buildNftName(index)});
-        data = setImage(data, content.buildImage(index, "https://i.imgur.com/WKSdu1p.png", self.images));
+        data = setImage(data, content.buildImage(index, self.backgrounds, self.images));
         data.set(sha256("description"), ElString{ value: content.buildDescription(index)});
         data.set(sha256("attributes"), ElString{ value: content.buildAttributesString()});
         let ans = buildData(data, true);

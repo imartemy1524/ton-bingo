@@ -1,11 +1,11 @@
 import { Blockchain, printTransactionFees, SandboxContract, TreasuryContract } from '@ton/sandbox';
 import { beginCell, Cell, Dictionary, OpenedContract, toNano } from '@ton/core';
-import { ElString, Ticket, TonBingo } from '../wrappers/TonBingo';
+import { Backgrounds, ElString, Ticket, TonBingo } from '../wrappers/TonBingo';
 import '@ton/test-utils';
 import { randomAddress } from '@ton/test-utils';
 import { TicketContract } from '../build/TonBingo/tact_TicketContract';
 import { BingoTicketAdditional } from '../wrappers/BingoTicketAdditional';
-import { decodeNftDataOnchain } from './__helpers';
+import { decodeNftDataOnchain, generateImagesAndBackgrounds } from './__helpers';
 import * as fs from 'node:fs';
 
 function needToTakeOut(squares: bigint, users: bigint, winners100_000: bigint) {
@@ -51,27 +51,28 @@ describe('TonBingo', () => {
     let tonBingo: SandboxContract<TonBingo>;
 
     beforeEach(async () => {
-        let images: Dictionary<bigint, ElString> = Dictionary.empty();
-
-        for (let i = 1; i <= 99; i++) {
-            const image = fs.readFileSync(`./images/${i}.png`);
-            images.set(BigInt(i), { $$type: 'ElString', value:  image.toString('base64') });
-        }
-
+        const {images, backgrounds} = await generateImagesAndBackgrounds();
         blockchain = await Blockchain.create();
         blockchain.now = 1;
         deployer = await blockchain.treasury('deployer');
 
         tonBingo = blockchain.openContract(
-            await TonBingo.fromInit(deployer.address, 1000n, toNano('0.2'), {
-                $$type: 'ExpectedWinners',
-                // 4 winners (400%)
-                corners: 100_000n * 4n,
-                // one winner (100%)
-                crossing: 100_000n,
-                // 30%
-                full: 30_000n,
-            }, images),
+            await TonBingo.fromInit(
+                deployer.address,
+                1000n,
+                toNano('0.2'),
+                {
+                    $$type: 'ExpectedWinners',
+                    // 4 winners (400%)
+                    corners: 100_000n * 4n,
+                    // one winner (100%)
+                    crossing: 100_000n,
+                    // 30%
+                    full: 30_000n,
+                },
+                images,
+                backgrounds,
+            ),
         );
 
         const deployResult = await tonBingo.send(

@@ -1,11 +1,16 @@
 import { beginCell, BitBuilder, BitReader, Builder, Cell, Dictionary, Slice } from '@ton/core';
 import { sha256_sync } from '@ton/crypto';
+import { Backgrounds, ElString } from '../build/TonBingo/tact_TonBingo';
+import fs from 'node:fs';
+import { readFile } from 'node:fs/promises';
+import { readFileSync } from 'fs';
 //parsing onchain data in NFT
 //reference: https://stackblitz.com/edit/ton-onchain-nft-parser?file=src%2Fmain.ts
 //https://docs.ton.org/develop/dapps/asset-processing/metadata
 interface ChunkDictValue {
     content: Buffer;
 }
+
 type IDataAttribute = {
     trait_type: string;
     value: string;
@@ -24,6 +29,7 @@ interface NftData {
 
     attributes?: IDataAttribute[];
 }
+
 class NftOnChainDataParserClass {
     flattenSnakeCell(cell: Cell) {
         let c: Cell | null = cell;
@@ -163,11 +169,9 @@ export function decodeNftDataOnchain(data: Cell): NftData {
     return realGoodObject;
 }
 
-
 export function sha256(s: string): bigint {
     return BigInt('0x' + sha256_sync(s).toString('hex'));
 }
-
 
 export function writeBuffer(src: Buffer, builder: Builder) {
     if (src.length > 0) {
@@ -183,4 +187,30 @@ export function writeBuffer(src: Buffer, builder: Builder) {
             builder = builder.storeBuffer(src);
         }
     }
+}
+
+export async function generateImagesAndBackgrounds() {
+    let images: Dictionary<bigint, ElString> = Dictionary.empty();
+    await Promise.all(
+        Array(99)
+            .fill(0)
+            .map(async (_, i) => {
+                for (let i = 1; i <= 99; i++) {
+                    const image = await readFile(`./images/${i}.webp`);
+                    images.set(BigInt(i), { $$type: 'ElString', value: image.toString('base64') });
+                }
+            }),
+    );
+
+    const bgs: Dictionary<bigint, ElString> = Dictionary.empty();
+    const backgrounds: Backgrounds = {
+        $$type: 'Backgrounds',
+        length: 123n,
+        images: bgs,
+    };
+    for (let i = 1; i <= 1; i++) {
+        const image = await readFile(`./backgrounds/${i}.webp`);
+        bgs.set(BigInt(i), { $$type: 'ElString', value: 'data:image/webp;base64,' + image.toString('base64') });
+    }
+    return { images, backgrounds };
 }

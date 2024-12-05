@@ -22,6 +22,6 @@ for i in range(1, 100):
     draw.text(position, text, fill='white', font=font)
 
     # Save the image
-    image.save(f'./{i}.png')
+    image.save(f'./{i}.webp')
 
 print("Images generated and saved in the 'images' folder.")
