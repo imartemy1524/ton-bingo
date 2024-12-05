@@ -205,12 +205,12 @@ export async function generateImagesAndBackgrounds() {
     const bgs: Dictionary<bigint, ElString> = Dictionary.empty();
     const backgrounds: Backgrounds = {
         $$type: 'Backgrounds',
-        length: 123n,
+        length: 1n,
         images: bgs,
     };
     for (let i = 1; i <= 1; i++) {
         const image = await readFile(`./backgrounds/${i}.webp`);
-        bgs.set(BigInt(i), { $$type: 'ElString', value: 'data:image/webp;base64,' + image.toString('base64') });
+        bgs.set(BigInt(i-1), { $$type: 'ElString', value: 'data:image/webp;base64,' + image.toString('base64') });
     }
     return { images, backgrounds };
 }

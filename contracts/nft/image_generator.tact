@@ -15,8 +15,10 @@ inline fun generateSvg(background: String, ticket: Ticket, images: map<Int, ElSt
         let x: Int = 350;
         let xPos: Int = 0;
         repeat(5){
-            let value = ticket.numberAt(xPos, yPos);
-            ans = ans.concat("<image x=\"").concat(x.toString()).concat("\" y=\"").concat(y.toString()).concat("\" width=\"150\" height=\"150\" href=\"data:image/png;base64,").concat(images.get(value)!!.value).concat("\" />");
+            if(xPos != 2 || yPos != 2){
+                let value = ticket.numberAt(xPos, yPos);
+                ans = ans.concat("<image x=\"").concat(x.toString()).concat("\" y=\"").concat(y.toString()).concat("\" width=\"150\" height=\"150\" href=\"data:image/png;base64,").concat(images.get(value)!!.value).concat("\" />");
+            }
             x += 123;
             xPos += 1;
         }
