@@ -55,13 +55,14 @@ trait NftsCollection{
     ticketsCount: Int;
     const CollectionName: String = "TON Bingo";
     const CollectionDescription: String = "TON Bingo NFTs";
+    images: map<Int, ElString>;
     const LogoURL: String = "https://raw.githubusercontent.com/imartemy1524/ton-bingo/refs/heads/master/images/logo.png";
     get fun get_collection_data(): CollectionData {
         let data: map<Int, ElString> = emptyMap();
         data.set(sha256("name"), ElString{ value: self.CollectionName});
         data.set(sha256("description"), ElString{ value: self.CollectionDescription});
         data = setImage(data, self.LogoURL);
-        //        data.set( sha256("image"), ElString{ value: self.LogoURL});
+        data.set( sha256("image"), ElString{ value: self.LogoURL});
         data.set(sha256("marketplace"), ElString{ value: "http://tonbingolottery.ton"});
         return CollectionData{
             next_item_index: self.ticketsCount,
@@ -73,7 +74,7 @@ trait NftsCollection{
         let content: TicketDataNft = TicketDataNft.fromCell(individual_content);
         let data: map<Int, ElString> = emptyMap();
         data.set(sha256("name"), ElString{value: content.buildNftName(index)});
-        data = setImage(data, content.buildImage(index, "https://i.imgur.com/WKSdu1p.png"));
+        data = setImage(data, content.buildImage(index, "https://i.imgur.com/WKSdu1p.png", self.images));
         data.set(sha256("description"), ElString{ value: content.buildDescription(index)});
         data.set(sha256("attributes"), ElString{ value: content.buildAttributesString()});
         let ans = buildData(data, true);
