@@ -13,7 +13,7 @@ export class BingoTicketAdditional extends TicketContract {
     public async getRealData(provider: ContractProvider): Promise<TicketData> {
         const data = await this.getData(provider);
         let ans: number[][] = [];
-        let g = data.data;
+        let g = data.ticket.data;
 
         for (let x = 0; x < 5; x++) {
             let row: number[] = [];

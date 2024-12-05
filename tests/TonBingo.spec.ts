@@ -1,5 +1,5 @@
 import { Blockchain, printTransactionFees, SandboxContract, TreasuryContract } from '@ton/sandbox';
-import { Cell, OpenedContract, toNano } from '@ton/core';
+import { beginCell, Cell, OpenedContract, toNano } from '@ton/core';
 import { Ticket, TonBingo } from '../wrappers/TonBingo';
 import '@ton/test-utils';
 import { randomAddress } from '@ton/test-utils';
@@ -138,9 +138,26 @@ describe('TonBingo', () => {
             blockchain.now += 100;
             await tonBingo.sendExternal('take');
         }
-        const ticketsData = await Promise.all(tickets.map((t) => t.getData()));
-        const winners = await Promise.all(ticketsData.map((t) => tonBingo.getIsWinner(1n, t)));
-        const winnersCount = winners.filter(e=>e).length;
-        console.log("Corners winners: ", winnersCount)
+        const winnerTickets = await Promise.all(tickets.map(async ticket=> {
+                const data = await ticket.getData();
+                const isWinner = await tonBingo.getIsWinner(1n, data.ticket);
+                if(isWinner) return ticket;
+                return null;
+            }
+        )).then(e=>e.filter(e=>e));
+        for(const winner of winnerTickets){
+            const {transactions} = await winner!.send(deployer.getSender(), {
+                value: toNano('0.1')
+            }, {
+                $$type: 'ClaimWin',
+                type: 1n
+            });
+            printTransactionFees(transactions);
+            expect(transactions).toHaveTransaction({
+                body: beginCell().storeUint(0, 32)
+                    .storeStringTail('Congratulations🥳')
+                    .endCell()
+            })
+        }
     });
 });

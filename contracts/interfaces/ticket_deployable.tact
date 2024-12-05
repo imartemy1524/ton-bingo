@@ -5,13 +5,13 @@ trait TicketDeployable{
     inline fun ticketAt(index: Int): StateInit{
         return initOf TicketContract(myAddress(), index);
     }
-    inline fun deployTicket(ticket: Ticket, id: Int){
+    inline fun deployTicket(ticket: Ticket, id: Int, owner: Address){
         let t = self.ticketAt(id);
         send(SendParameters{
             to: contractAddress(t),
             value: ton("0.02"),
             bounce: false,
-            body: DeployNewticket{ticket: ticket}.toCell(),
+            body: DeployNewticket{ticket, owner}.toCell(),
             code: t.code,
             data: t.data,
             mode: SendBounceIfActionFail

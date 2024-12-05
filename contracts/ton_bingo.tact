@@ -54,7 +54,7 @@ contract TonBingo with Registrable, TicketDeployable, OwnableTransferable, Winne
         require(context().value >= self.amount, "Not enough money");
         let ticket = randomTicket();
         self.ticketsCount += 1;
-        self.deployTicket(ticket, self.ticketsCount);
+        self.deployTicket(ticket, self.ticketsCount, sender());
     }
     get fun data(): BingoData {
         return BingoData {

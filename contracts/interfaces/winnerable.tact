@@ -73,7 +73,7 @@ trait Winnerable with DigitsTakerOut, TicketDeployable, Ownable {
         require(sender() == contractAddress(self.ticketAt(m.fromTicketId)), "Winnerable: sender is not an NFT");
         if(m.type.value == WINNER_TYPE_CORNERS){
             require(self.digitsTakenOut.count <= self.needBarrels.corners, "Not enough corners winners");
-            require(m.ticket.isCrossingWins(self.digitsTakenOut), "Ticket is not corners winner");
+            require(m.ticket.isWinnerCorners(self.digitsTakenOut), "Ticket is not corners winner");
             self.winners.winnersCounts.winnersCorners += 1;
         }
         else if(m.type.value == WINNER_TYPE_CROSSING){
