@@ -10,7 +10,7 @@ export async function run(provider: NetworkProvider) {
     const tonBingo = provider.open(
         await TonBingo.fromInit(
             provider.sender().address!,
-            BigInt(Math.floor(+new Date() / 1000) + 3600),
+            BigInt(Math.floor(+new Date() / 1000) + 3600 * 24 * 7),
             toNano('0.05'),
             {
                 corners: 300_000n,
