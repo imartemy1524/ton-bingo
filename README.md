@@ -1,4 +1,8 @@
-# ton-bingo
+# TON Bingo
+
+This project contains implementation of a Bingo game on TON blockchain.
+
+Each ticket is issued as an NFT, each ticket can be bought through the smart contract, the smart contract calculates needed barrels to be taken out to get `N` winners depends on the number of players using probability theory, and after the game ends users automatically receives the prizes.
 
 ## Project structure
 

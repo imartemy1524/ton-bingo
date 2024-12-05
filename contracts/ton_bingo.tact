@@ -7,7 +7,9 @@ import "./interfaces/registrable.tact";
 import "./interfaces/digits_taker.tact";
 import "./ticket.tact";
 import "./interfaces/winnerable.tact";
-
+import "./nft/nft_item.tact";
+import "./nft/image_generator.tact";
+import "./nft/nfts_collection.tact";
 struct BingoData {
     ticketsCount: Int;
     registerUntil: Int;
@@ -20,7 +22,7 @@ message DeployMaster {
     jetton: Address;
 }
 
-contract TonBingo with Registrable, TicketDeployable, OwnableTransferable, Winnerable {
+contract TonBingo with Registrable, TicketDeployable, OwnableTransferable, Winnerable, NftsCollection {
     registerUntil: Int as uint64;
     amount: Int as coins;
     owner: Address;

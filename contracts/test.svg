@@ -1,0 +1,30 @@
+<svg width="1024" height="1024" xmlns="http://www.w3.org/2000/svg">
+    <image href="https://i.imgur.com/WKSdu1p.png" x="0" y="0" width="1024" height="1024"/>
+    <image x="350" y="325" width="150" height="150" href="https://raw.githubusercontent.com/imartemy1524/ton-bingo/refs/heads/master/images/1.png" />
+    <image x="350" y="450" width="150" height="150" href="https://raw.githubusercontent.com/imartemy1524/ton-bingo/refs/heads/master/images/1.png" />
+    <text x="80" y="80" font-family="Roboto Flex" font-size="35px" fill="black">Ticket Number: 1234</text>
+    <text x="425" y="430" font-family="Roboto Flex" font-size="68pt" fill="white" text-anchor="middle" alignment-baseline="middle">1</text>
+    <text x="550" y="430" font-family="Roboto Flex" font-size="68pt" fill="white" text-anchor="middle" alignment-baseline="middle">2</text>
+    <text x="400" y="200" font-family="Roboto Flex" font-size="68pt" fill="white" text-anchor="middle" alignment-baseline="middle">3</text>
+    <text x="550" y="200" font-family="Roboto Flex" font-size="68pt" fill="white" text-anchor="middle" alignment-baseline="middle">4</text>
+    <text x="700" y="200" font-family="Roboto Flex" font-size="68pt" fill="white" text-anchor="middle" alignment-baseline="middle">5</text>
+    <text x="100" y="350" font-family="Roboto Flex" font-size="68pt" fill="white" text-anchor="middle" alignment-baseline="middle">6</text>
+    <text x="250" y="350" font-family="Roboto Flex" font-size="68pt" fill="white" text-anchor="middle" alignment-baseline="middle">7</text>
+    <text x="400" y="350" font-family="Roboto Flex" font-size="68pt" fill="white" text-anchor="middle" alignment-baseline="middle">8</text>
+    <text x="550" y="350" font-family="Roboto Flex" font-size="68pt" fill="white" text-anchor="middle" alignment-baseline="middle">9</text>
+    <text x="700" y="350" font-family="Roboto Flex" font-size="68pt" fill="white" text-anchor="middle" alignment-baseline="middle">10</text>
+    <text x="100" y="500" font-family="Roboto Flex" font-size="68pt" fill="white" text-anchor="middle" alignment-baseline="middle">11</text>
+    <text x="250" y="500" font-family="Roboto Flex" font-size="68pt" fill="white" text-anchor="middle" alignment-baseline="middle">12</text>
+    <text x="550" y="500" font-family="Roboto Flex" font-size="68pt" fill="white" text-anchor="middle" alignment-baseline="middle">14</text>
+    <text x="700" y="500" font-family="Roboto Flex" font-size="68pt" fill="white" text-anchor="middle" alignment-baseline="middle">15</text>
+    <text x="100" y="650" font-family="Roboto Flex" font-size="68pt" fill="white" text-anchor="middle" alignment-baseline="middle">16</text>
+    <text x="250" y="650" font-family="Roboto Flex" font-size="68pt" fill="white" text-anchor="middle" alignment-baseline="middle">17</text>
+    <text x="400" y="650" font-family="Roboto Flex" font-size="68pt" fill="white" text-anchor="middle" alignment-baseline="middle">18</text>
+    <text x="550" y="650" font-family="Roboto Flex" font-size="68pt" fill="white" text-anchor="middle" alignment-baseline="middle">19</text>
+    <text x="700" y="650" font-family="Roboto Flex" font-size="68pt" fill="white" text-anchor="middle" alignment-baseline="middle">20</text>
+    <text x="100" y="800" font-family="Roboto Flex" font-size="68pt" fill="white" text-anchor="middle" alignment-baseline="middle">21</text>
+    <text x="250" y="800" font-family="Roboto Flex" font-size="68pt" fill="white" text-anchor="middle" alignment-baseline="middle">22</text>
+    <text x="400" y="800" font-family="Roboto Flex" font-size="68pt" fill="white" text-anchor="middle" alignment-baseline="middle">23</text>
+    <text x="550" y="800" font-family="Roboto Flex" font-size="68pt" fill="white" text-anchor="middle" alignment-baseline="middle">24</text>
+    <text x="700" y="800" font-family="Roboto Flex" font-size="68pt" fill="white" text-anchor="middle" alignment-baseline="middle">25</text>
+</svg>

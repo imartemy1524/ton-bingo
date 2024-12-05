@@ -9,7 +9,7 @@ struct TicketData{
 message ClaimWin{
     type: Int as uint3;
 }
-contract TicketContract with Parentable, OwnableTransferable {
+contract TicketContract with Parentable, OwnableTransferable, NftItem {
     ticket: Ticket = Ticket{data: 0};
     parent: Address;
     id: Int as uint32;
